@@ -7,5 +7,14 @@ use Illuminate\Http\Request;
 
 class GetAuthController extends Controller
 {
-    //
+    /** 
+     * Get the authenticated user
+     * 
+     * @return [json] user object
+    */
+
+    public function getAuthUser(Request $request)
+    {
+        return response()->json($request->user(), 200);
+    }
 }
