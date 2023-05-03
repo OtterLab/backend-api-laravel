@@ -17,7 +17,6 @@ class BookingController extends Controller
     public function showAllBookings(Request $request)
     {
         $booking = Booking::all();
-
         return response()->json($booking, 200);
     }
 
@@ -123,11 +122,7 @@ class BookingController extends Controller
             ], 200);
         }
 
-        $booking = Booking::FindOrFail($id);
-        $booking->room_id = $request->get($room['id']);
-        $booking->start_date = $request->get('user_id');
-        $booking->end_date = $request->get('end_date');
-        $booking->customer_id = $request->get($customer->id);
+        $booking->fill($request->all());
 
         if($booking->update($request->all())) {
             return response()->json([
