@@ -52,7 +52,6 @@ class HotelController extends Controller
             ], 200);
         }
 
-        /** Image upload */
         $fileName = time() . '.' . $request->hotel_image->extension();
         $request->hotel_image->storeAs('public/uploads/hotels', $fileName);
 
@@ -114,6 +113,17 @@ class HotelController extends Controller
             ], 200);
         }
 
+        $fileName = '';
+        if($request->hasFile('hotel_image')) {
+            $fileName = time() . '.' . $request->hotel_image->extension();
+            $request->hotel_image->storeAs('public/uploads/hotels', $fileName);
+            if($hotel->hotel_image) {
+                Storage::delete('public/uploads/hotels/' . $hotel->hotel_image);
+            }
+        } else {
+            $fileName = $hotel->hotel_image;
+        }
+
         $hotel = Hotel::FindOrFail($id);
         $hotel->fill($request->all());
 
@@ -138,6 +148,11 @@ class HotelController extends Controller
     {
         $hotel = Hotel::FindOrFail($id);
 
+        /** delete image */
+        if($hotel->hotel_image) {
+            Storage::delete('public/uploads/hotels/' . $hotel->hotel_image);
+        }
+        
         if($hotel->delete()) {
             return response()->json([
                 'message' => 'Hotel deleted successfully'

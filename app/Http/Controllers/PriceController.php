@@ -113,6 +113,7 @@ class PriceController extends Controller
 
         if($validator->fails()) {
             return response()->json([
+                'price' => $price,
                 'errors' => $validator->messages()
             ], 200);
         }

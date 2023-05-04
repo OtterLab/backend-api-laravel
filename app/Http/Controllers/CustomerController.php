@@ -100,8 +100,14 @@ class CustomerController extends Controller
 
         if($customer->update($request->all())) {
             return response()->json([
+                'customer' => $customer,
                 'message' => 'Customer updated successfully'
             ], 202);
+        }
+        else {
+            return response()->json([
+                'error' => 'Unable to update customer'
+            ], 400);
         }
     }
     

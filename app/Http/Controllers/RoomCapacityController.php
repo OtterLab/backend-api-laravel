@@ -40,6 +40,18 @@ class RoomCapacityController extends Controller
         $RoomCapacity = RoomCapacity::create([
             'name' => $request->name,
         ]);
+
+        if($RoomCapacity->save()) {
+            return response()->json([
+                'room_capacity' => $RoomCapacity,
+                'message' => 'room capacity created'
+            ], 201);
+        }
+        else {
+            response()->json([
+                'error' => 'Unable to create room capacity'
+            ], 422);
+        }
     }
 
     /** 
@@ -56,7 +68,7 @@ class RoomCapacityController extends Controller
      * update Room Capacity
     */
 
-    public function updateRoomCapacity(Request $request)
+    public function updateRoomCapacity(Request $request, $id)
     {
         /** validate incoming data */
         $validator = Validator::make($request->all(), [
@@ -74,6 +86,7 @@ class RoomCapacityController extends Controller
 
         if($RoomCapacity->update($request->all())) {
             return response()->json([
+                'room_capacity' => $RoomCapacity,
                 'message' => 'Room Capacity updated successfully'
             ], 202);
         }
