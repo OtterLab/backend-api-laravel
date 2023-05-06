@@ -16,7 +16,6 @@ class Hotel extends Model
         'state',
         'country',
         'post_code',
-        'phone',
-        'hotel_image'
+        'phone'
     ];
 }

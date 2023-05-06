@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 
 class HotelController extends Controller
 {
@@ -29,7 +28,6 @@ class HotelController extends Controller
      * @param [string] country
      * @param [string] post_code
      * @param [string] phone
-     * @param [string] hotel_image
     */
 
     public function createHotel(Request $request)
@@ -42,8 +40,7 @@ class HotelController extends Controller
             'state' => 'required|string',
             'country' => 'required|string',
             'post_code' => 'required|string',
-            'phone' => 'required|string|numeric',
-            'hotel_image' => 'image|mimes:jpeg,jpg,png,svg,gif|max:2048'
+            'phone' => 'required|string|numeric'
         ]);
     
         if($validator->fails()) {
@@ -52,9 +49,6 @@ class HotelController extends Controller
             ], 200);
         }
 
-        $fileName = time() . '.' . $request->hotel_image->extension();
-        $request->hotel_image->storeAs('public/uploads/hotels', $fileName);
-
         $hotel = Hotel::create([
             'hotel_name' => $request->hotel_name,
             'address' => $request->address,
@@ -62,8 +56,7 @@ class HotelController extends Controller
             'state' => $request->state,
             'country' => $request->country,
             'post_code' => $request->post_code,
-            'phone' => $request->phone,
-            'hotel_image' => $fileName
+            'phone' => $request->phone
         ]);
 
         if($hotel->save()) {
@@ -103,8 +96,7 @@ class HotelController extends Controller
             'state' => 'required|string',
             'country' => 'required|string',
             'post_code' => 'required|string',
-            'phone' => 'required|string|numeric',
-            'hotel_image' => 'image|mimes:jpeg,jpg,png,svg,gif|max:2048'
+            'phone' => 'required|string|numeric'
         ]);
 
         if($validator->fails()) {
@@ -113,19 +105,7 @@ class HotelController extends Controller
             ], 200);
         }
 
-        $fileName = '';
-        if($request->hasFile('hotel_image')) {
-            $fileName = time() . '.' . $request->hotel_image->extension();
-            $request->hotel_image->storeAs('public/uploads/hotels', $fileName);
-            if($hotel->hotel_image) {
-                Storage::delete('public/uploads/hotels/' . $hotel->hotel_image);
-            }
-        } else {
-            $fileName = $hotel->hotel_image;
-        }
-
         $hotel = Hotel::FindOrFail($id);
-        $hotel->fill($request->all());
 
         if($hotel->update($request->all())) {
             return response()->json([
@@ -147,11 +127,6 @@ class HotelController extends Controller
     public function deleteHotel($id)
     {
         $hotel = Hotel::FindOrFail($id);
-
-        /** delete image */
-        if($hotel->hotel_image) {
-            Storage::delete('public/uploads/hotels/' . $hotel->hotel_image);
-        }
         
         if($hotel->delete()) {
             return response()->json([

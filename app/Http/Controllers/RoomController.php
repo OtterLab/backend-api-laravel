@@ -25,10 +25,10 @@ class RoomController extends Controller
     {
         /** validate incoming data */
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'room_name' => 'required|string',
             'room_type_id' => 'required|integer|min:1',
             'room_capacity_id' => 'required|integer|min:1',
-            'room_image' => 'image|mimes:jpeg,jpg,png,svg,gif|max:2048'
+            'room_description' => 'required|string'
         ]);
 
         if($validator->fails()) {
@@ -39,10 +39,6 @@ class RoomController extends Controller
 
         $room = new Room();
         $room->fill($request->all());
-
-        /** Image upload */
-        $fileName = time() . '.' . $request->room_image->extension();
-        $request->room_image->storeAs('public/uploads/rooms', $fileName);
 
         if($room->save()) {
             return response()->json([
@@ -75,10 +71,10 @@ class RoomController extends Controller
     {
         /** validate incoming data */
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'room_name' => 'required|string',
             'room_type_id' => 'required|integer|min:1',
             'room_capacity_id' => 'required|integer|min:1',
-            'room_image' => 'image|mimes:jpeg,jpg,png,svg,gif|max:2048'
+            'room_description' => 'required|string'
         ]);
 
         if($validator->fails()) {
@@ -87,16 +83,7 @@ class RoomController extends Controller
             ], 200);
         }
 
-        $fileName = '';
-        if($request->hasFile('room_image')) {
-            $fileName = time() . '.' . $request->room_image->extension();
-            $request->room_image->storeAs('public/uploads/rooms', $fileName);
-            if($room->room_image) {
-                Storage::delete('public/uploads/rooms/' . $room->room_image);
-            }
-        } else {
-            $fileName = $room->room_image;
-        }
+        $room = Room::FindOrFail($id);
 
         if($room->update($request->all())) {
             return response()->json([
@@ -118,11 +105,6 @@ class RoomController extends Controller
     public function deleteRoom($id)
     {
         $room = Room::FindOrFail($id);
-
-        /** delete image */
-        if($room->room_image) {
-            Storage::delete('public/uploads/rooms/' . $room->room_image);
-        }
 
         if($room->delete()) {
             return response()->json([

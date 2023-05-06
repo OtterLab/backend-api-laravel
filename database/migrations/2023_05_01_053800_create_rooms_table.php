@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 150);
+            $table->string('room_name', 150);
             $table->integer('room_type_id')->unsigned();
             $table->integer('room_capacity_id')->unsigned();
-            $table->string('room_image',255);
             $table->mediumText('room_description');
             $table->timestamps();
 

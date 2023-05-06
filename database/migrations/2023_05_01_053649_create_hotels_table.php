@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('country', 150)->nullable();
             $table->string('post_code', 15)->nullable();
             $table->string('phone', 150)->nullable();
-            $table->string('hotel_image', 255)->nullable();
             $table->timestamps();
         });
     }

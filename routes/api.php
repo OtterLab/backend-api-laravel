@@ -25,6 +25,10 @@ use App\Http\Controllers\RoomTypeController;
 |
 */
 
+Route::middleware('auth:api')->get('/user', function() {
+    return $request->user();
+});
+
 Route::prefix('auth')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [LoginController::class, 'login']);

@@ -96,7 +96,7 @@ class CustomerController extends Controller
             ], 200);
         }
 
-        $customer->fill($request->all());
+        //$customer->fill($request->all());
 
         if($customer->update($request->all())) {
             return response()->json([

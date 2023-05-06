@@ -48,7 +48,7 @@ class PriceController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'room' => 'integer|min:1',
-            'price' => 'required|numeric',
+            'price' => 'required|string',
             'room_type_id' => 'required|integer|min:1',
             'room_capacity_id' => 'required|integer|min:1',
             'day' => 'required|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday,all',
@@ -103,7 +103,7 @@ class PriceController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'room' => 'integer|min:1',
-            'price' => 'required|numeric',
+            'price' => 'required|string',
             'room_type_id' => 'required|integer|min:1',
             'room_capacity_id' => 'required|integer|min:1',
             'day' => 'required|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday,all',
@@ -118,7 +118,7 @@ class PriceController extends Controller
             ], 200);
         }
 
-        $price->fill($request->all());
+        //$price->fill($request->all());
 
         if(empty($request->start_date) || empty($request->end_date)) {
             $price->start_date = null;

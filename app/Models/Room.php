@@ -12,10 +12,10 @@ class Room extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'room_name',
         'room_type_id',
         'room_capacity_id',
-        'room_image'
+        'room_description'
     ];
 
     // define model relationship
