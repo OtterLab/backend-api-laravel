@@ -8,7 +8,6 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\GetAuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\HotelController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\RoomCapacityController;
 use App\Http\Controllers\RoomController;
@@ -53,14 +52,6 @@ Route::prefix('customer')->group(function () {
     Route::get('showAllCustomers', [CustomerController::class, 'showAllCustomers']);
     Route::get('getCustomer/{id}', [CustomerController::class, 'getCustomer']);
     Route::delete('deleteCustomer/{id}', [CustomerController::class, 'deleteCustomer']);
-});
-
-Route::prefix('hotel')->group(function () {
-    Route::post('createHotel', [HotelController::class, 'createHotel']);
-    Route::post('updateHotel/{id}', [HotelController::class, 'updateHotel']);
-    Route::get('showAllHotels', [HotelController::class, 'showAllHotels']);
-    Route::get('getHotel/{id}', [HotelController::class, 'getHotel']);
-    Route::delete('deleteHotel/{id}', [HotelController::class, 'deleteHotel']);
 });
 
 Route::prefix('price')->group(function () {
