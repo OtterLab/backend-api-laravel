@@ -122,8 +122,6 @@ class BookingController extends Controller
             ], 200);
         }
 
-        //$booking->fill($request->all());
-
         if($booking->update($request->all())) {
             return response()->json([
                 'bookings' => $booking,

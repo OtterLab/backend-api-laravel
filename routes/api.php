@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\GetAuthController;
+use App\Http\Controllers\HotelController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PriceController;
@@ -36,6 +37,14 @@ Route::prefix('auth')->group(function () {
         Route::get('logout', [LogoutController::class, 'logout']);
         Route::get('getAuthUser', [GetAuthController::class, 'getAuthUser']);
     });
+});
+
+Route::prefix('hotel')->group(function () {
+    Route::post('createHotel', [HotelController::class, 'createHotel']);
+    Route::post('updateHotel/{id}', [HotelController::class, 'updateHotel']);
+    Route::get('showAllHotels', [HotelController::class, 'showAllHotels']);
+    Route::get('getHotel/{id}', [HotelController::class, 'getHotel']);
+    Route::delete('deleteHotel/{id}', [HotelController::class, 'deleteHotel']);
 });
 
 Route::prefix('booking')->group(function () {
